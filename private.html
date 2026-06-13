@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Share Your Feedback | McBride Construction Ltd</title>
+<meta name="description" content="Tell McBride Construction Ltd how we can do better." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="nav nav--solid">
+  <a href="index.html" class="nav__logo">McBride<b>.</b></a>
+  <div class="nav__links">
+    <a href="index.html#services">Services</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact" class="btn btn--primary">Get a quote</a>
+  </div>
+</nav>
+
+<div class="review-stage" style="max-width:640px;">
+  <span class="eyebrow">Private feedback</span>
+  <h1 style="font-size:clamp(28px,4.6vw,42px);margin:14px 0 12px;">Tell us how we can do better.</h1>
+  <p class="review-note" style="margin-bottom:8px;">This goes straight to Karl — not posted publicly. We genuinely want to put things right.</p>
+
+  <form class="review-card" id="feedbackForm" action="https://formsubmit.co/karl@mcbrideconstruction.co.nz" method="POST" style="text-align:left;margin-top:28px;">
+    <input type="hidden" name="_subject" value="Private feedback — McBride Construction website" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_template" value="table" />
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" required placeholder="Your name" />
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required placeholder="you@email.co.nz" />
+    </div>
+    <div class="field">
+      <label for="rating">Your rating</label>
+      <input id="rating" name="rating" type="text" readonly value="" />
+    </div>
+    <div class="field">
+      <label for="feedback">What could we have done better?</label>
+      <textarea id="feedback" name="feedback" required placeholder="Tell us what happened and how we can put it right."></textarea>
+    </div>
+    <button type="submit" class="btn btn--primary" style="width:100%;justify-content:center;">Send feedback</button>
+  </form>
+
+  <div class="success-box" id="success" style="margin-top:28px;">
+    <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h2 style="font-size:24px;margin-bottom:8px;">Thank you</h2>
+    <p style="color:var(--ink-soft);">Your feedback has been sent to Karl. We appreciate you taking the time — we'll be in touch.</p>
+    <a href="index.html" class="btn btn--outline" style="margin-top:20px;">Back to home</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__bottom" style="border:0;padding-top:0;">
+      <span>© <span id="year">2026</span> McBride Construction Ltd · Christchurch, NZ</span>
+      <span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Pre-fill rating from URL
+  var params = new URLSearchParams(window.location.search);
+  var rating = params.get('rating');
+  var ratingField = document.getElementById('rating');
+  if (rating) { ratingField.value = rating + ' star' + (rating === '1' ? '' : 's'); }
+  else { ratingField.value = 'Not specified'; }
+
+  // Show success state on submit (AJAX to FormSubmit so we control the UI)
+  var form = document.getElementById('feedbackForm');
+  var success = document.getElementById('success');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    fetch('https://formsubmit.co/ajax/karl@mcbrideconstruction.co.nz', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: data
+    }).then(function () {
+      form.style.display = 'none';
+      success.classList.add('show');
+    }).catch(function () {
+      form.style.display = 'none';
+      success.classList.add('show');
+    });
+  });
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
